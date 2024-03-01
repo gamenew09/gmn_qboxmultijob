@@ -2,10 +2,18 @@
     "error": {
         "not_logged_in": "You are not logged into a character.",
         "unknown_error": "Could not make you work at job.",
-        "job_not_exist": "Job you are trying to work for doesn't exist."
+        "job_not_exist": "Job you are trying to work for doesn't exist.",
+
+        "config_disabled_leavejob": "The server's config has disabled leaving jobs.",
+        "not_hired": "You aren't that job."
     },
     "success": {
         "employed": "You are now working for %s.",
-        "unemployed": "You are now not working for anyone!"
+        "unemployed": "You are now not working for anyone.",
+        "leftjob": "You are no longer working at %s."
+    },
+    "leavejobalert": {
+        "title": "Leave Job",
+        "content": "Are you sure you want to leave %s?"
     }
 }

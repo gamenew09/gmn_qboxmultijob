@@ -1,3 +1,5 @@
+if not lib.checkDependency("qbx_core", "1.7.1", true) then error("checkDependency error") return end
+
 ---@type table<string, Job>
 local Jobs = exports.qbx_core:GetJobs()
 

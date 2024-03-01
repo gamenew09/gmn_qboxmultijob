@@ -1,7 +1,9 @@
 ---@type table<string, Job>
 local Jobs = exports.qbx_core:GetJobs()
 
--- TODO: Handle dynamically changing jobs from qbx_core.
+RegisterNetEvent("qbx_core:client:onJobUpdate", function (jobName, job)
+    Jobs[jobName] = job
+end)
 
 RegisterCommand('multijob', function (source, args, raw)
     ---@type { [string]: ContextMenuItem } | ContextMenuArrayItem[]

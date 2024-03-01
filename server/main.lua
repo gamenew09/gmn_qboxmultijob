@@ -3,8 +3,9 @@ if not lib.checkDependency("qbx_core", "1.7.1", true) then error("checkDependenc
 ---@type table<string, Job>
 local Jobs = exports.qbx_core:GetJobs()
 
--- TODO: Handle dynamically changing jobs from qbx_core.
-
+AddEventHandler("qbx_core:server:onJobUpdate", function (jobName, job)
+    Jobs[jobName] = job
+end)
 
 lib.callback.register("gmn_qboxmultijob:server:becomeUnemployed", function (source)
     ---@type Player|nil

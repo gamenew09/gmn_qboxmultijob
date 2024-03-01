@@ -14,7 +14,14 @@ lib.callback.register("gmn_qboxmultijob:server:becomeUnemployed", function (sour
         return false, "not_logged_in"
     end
 
+    local s, r = pcall(function ()
     exports.qbx_core:SetPlayerPrimaryJob(player.PlayerData.citizenid, "unemployed")
+    end)
+
+    if not s then
+        lib.print.error("Failed to set player's primary job to unemployed: ", r)
+    end
+
     player = exports.qbx_core:GetPlayer(source)--[[ @type Player|nil ]]
     if player and player.PlayerData.job.name == "unemployed" then
         return true
@@ -34,7 +41,14 @@ lib.callback.register("gmn_qboxmultijob:server:workAt", function (source, jobNam
         return false, "job_not_exist"
     end
 
+    local s, r = pcall(function ()
     exports.qbx_core:SetPlayerPrimaryJob(player.PlayerData.citizenid, jobName)
+    end)
+
+    if not s then
+        lib.print.error(("Failed to set player's primary job to %s: "):format(jobName), r)
+    end
+
     player = exports.qbx_core:GetPlayer(source)--[[ @type Player|nil ]]
     if player and player.PlayerData.job.name == jobName then
         return true

@@ -22,29 +22,45 @@ RegisterCommand('multijob', function (source, args, raw)
             end
         end
     }
+    local jobs = {}
 
-    -- TODO: Sort by alphabetical order.
     for jobName, jobGrade in pairs(QBX.PlayerData.jobs) do
         local jobData = Jobs[jobName]
         if jobData then
-            opts[#opts+1] = {
-                title = jobData.label,
-                description = jobData.grades[jobGrade]?.name or "Invalid Grade",
-                disabled = QBX.PlayerData.job.name == jobName,
-                onSelect = function ()
-                    local success, result = lib.callback.await("gmn_qboxmultijob:server:workAt", false, jobName)
-                    if success then
-                        exports.qbx_core:Notify(locale("success.employed", jobData.label), "success", 5000)
-                    else
-                        exports.qbx_core:Notify(locale("error." .. tostring(result)), "error", 5000)
-                    end
-                end
+            jobs[#jobs+1] = {
+                name = jobName,
+                label = jobData.label,
+                gradeLabel = jobData.grades[jobGrade]?.name or "Invalid Grade",
+                isCurrentlyJob = QBX.PlayerData.job.name == jobName
             }
         else
-            opts[#opts+1] = {
-                title = "Invalid Job ".. jobName .. " (make sure you configured your jobs correctly!)"
+            jobs[#jobs+1] = {
+                name = jobName,
+                label = ("Invalid Job (%s)"):format(jobName),
+                gradeLabel = "Invalid Grade",
+                isCurrentlyJob = QBX.PlayerData.job.name == jobName
             }
         end
+    end
+
+    table.sort(jobs, function (a, b)
+        return a.label < b.label
+    end)
+
+    for _, job in pairs(jobs) do
+        opts[#opts+1] = {
+            title = job.label,
+            description = job.gradeLabel,
+            disabled = job.isCurrentlyJob,
+            onSelect = function ()
+                local success, result = lib.callback.await("gmn_qboxmultijob:server:workAt", false, job.name)
+                if success then
+                    exports.qbx_core:Notify(locale("success.employed", job.label), "success", 5000)
+                else
+                    exports.qbx_core:Notify(locale("error." .. tostring(result)), "error", 5000)
+                end
+            end
+        }
     end
 
     lib.registerContext({

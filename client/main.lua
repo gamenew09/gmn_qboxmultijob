@@ -44,6 +44,11 @@ RegisterCommand('multijob', function (source, args, raw)
     end
 
     table.sort(jobs, function (a, b)
+        if a.isCurrentlyJob then
+            return true
+        elseif b.isCurrentlyJob then
+            return false
+        end
         return a.label < b.label
     end)
 

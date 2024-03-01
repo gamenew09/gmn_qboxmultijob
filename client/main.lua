@@ -21,7 +21,10 @@ RegisterCommand('multijob', function (source, args, raw)
             else
                 exports.qbx_core:Notify(locale("error." .. tostring(result)), "error", 5000)
             end
-        end
+        end,
+        metadata = {
+            ["Payment"] = Jobs["unemployed"]?.grades[0]?.payment or "unknown"
+        }
     }
     
     ---@class JobListData

@@ -5,7 +5,10 @@
         "job_not_exist": "Job you are trying to work for doesn't exist.",
 
         "config_disabled_leavejob": "The server's config has disabled leaving jobs.",
-        "not_hired": "You aren't that job."
+        "not_hired": "You aren't that job.",
+
+        "unemployed_job_data_invalid": "The server does not have an unemployed job. Tell a server operator about this error and tell them to check their job configuration.",
+        "already_unemployed": "You are already unemployed."
     },
     "success": {
         "employed": "You are now working for %s.",
@@ -15,5 +18,9 @@
     "leavejobalert": {
         "title": "Leave Job",
         "content": "Are you sure you want to leave %s?"
+    },
+    "unemployed": {
+        "current": "Unemployed (Active Job)",
+        "job": "Unemployed"
     }
 }

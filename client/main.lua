@@ -10,10 +10,14 @@ RegisterCommand('multijob', function (source, args, raw)
     ---@type { [string]: ContextMenuItem } | ContextMenuArrayItem[]
     local opts = {}
 
+    local unemployedJobData = Jobs["unemployed"]
+    if not unemployedJobData then
+        exports.qbx_core:Notify(locale("error.unemployed_job_data_invalid"), "error", 5000)
+        return
+    end
     opts[#opts+1] = {
-        title = "Unemployed",
+        title = QBX.PlayerData.job.name == "unemployed" and locale("unemployed.current") or locale("unemployed.job"),
         description = "Be free from the reigns of a job!",
-        disabled = QBX.PlayerData.job.name == "unemployed",
         onSelect = function ()
             local success, result = lib.callback.await("gmn_qboxmultijob:server:becomeUnemployed")
             if success then
@@ -23,7 +27,7 @@ RegisterCommand('multijob', function (source, args, raw)
             end
         end,
         metadata = {
-            ["Payment"] = Jobs["unemployed"]?.grades[0]?.payment or "unknown"
+            ["Payment"] = unemployedJobData.grades[0]?.payment or "unknown"
         }
     }
     
